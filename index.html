@@ -376,6 +376,21 @@
 
             header nav {
                 display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: var(--bg-color);
+            }
+
+            header nav.active {
+                display: block;
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem;
             }
 
             .hamburger {
@@ -468,12 +483,12 @@
         <p>Fondée avec la vision de partager le beurre de karité béninois, Demberekey s’appuie sur des partenariats avec des coopératives de femmes. Notre mission : offrir un produit 100% naturel tout en soutenant les productrices et la durabilité.</p>
         <div class="histoire-grid">
             <div class="histoire-image">
-                <img src="https://via.placeholder.com/300x200?text=Photo+Productrices" alt="Productrices de karité au Bénin" loading="lazy">
-                <p>Nos productrices au Bénin (photo à fournir)</p>
+                <img src="/images/Femmes.png" alt="Productrices de karité au Bénin" loading="lazy" style="max-width: 100%; height: auto;">
+                <p>Nos productrices au Bénin </p>
             </div>
             <div class="histoire-image">
-                <img src="https://via.placeholder.com/300x200?text=Photo+Atelier" alt="Atelier de production de karité" loading="lazy">
-                <p>Notre atelier de production (photo à fournir)</p>
+                <img src="/images/attelier.jpg" alt="Atelier de production de karité" loading="lazy" style="max-width: 100%; height: auto;">
+                <p>Notre atelier de production </p>
             </div>
         </div>
     </section>
@@ -522,6 +537,13 @@
         <p>Naturellement vôtre</p>
     </footer>
 
-    <script src="script.js"></script>
+    <script>
+        const hamburger = document.querySelector('.hamburger');
+        const nav = document.querySelector('nav');
+
+        hamburger.addEventListener('click', () => {
+            nav.classList.toggle('active');
+        });
+    </script>
 </body>
 </html>
