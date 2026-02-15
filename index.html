@@ -256,7 +256,7 @@
 
         .histoire-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
         }
 
@@ -485,7 +485,7 @@
     <section id="histoire">
         <h2>Demberekey : Une Passion pour le Karité</h2>
         <p>Fondée avec la vision de partager le beurre de karité béninois, Demberekey s’appuie sur un partenariat exclusif avec une coopérative de femmes située dans le Nord Bénin. Notre mission : offrir un produit 100% naturel tout en soutenant les productrices et la durabilité.</p>
-         <div class="histoire-grid">
+        <div class="histoire-grid">
             <div class="histoire-image">
                 <img src="/images/Femmes.png" alt="Productrices de karité au Bénin" loading="lazy" style="max-width: 100%; height: auto;">
                 <p>Nos productrices au Bénin </p>
@@ -494,11 +494,9 @@
                 <img src="/images/attelier.jpg" alt="Atelier de production de karité" loading="lazy" style="max-width: 100%; height: auto;">
                 <p>Notre atelier de production </p>
             </div>
-            <div class="histoire-image">
-                <img src="/images/Processus Karité.png" alt="Processus de Fabrication du Beurre de Karité" loading="lazy" style="max-width: 100%; height: auto;">
-                <p>Notre processus de fabrication</p>
-            </div>
         </div>
+        <img src="/images/Processus Karité.png" alt="Processus de Fabrication du Beurre de Karité" loading="lazy" style="max-width: 100%; height: auto; display: block; margin: 2rem auto;">
+        <p>Notre processus de fabrication</p>
     </section>
 
     <section id="produits">
@@ -556,27 +554,3 @@
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
