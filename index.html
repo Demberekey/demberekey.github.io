@@ -514,25 +514,25 @@
     </section>
 
     <section id="contact">
-        <h2>Contactez Demberekey</h2>
-        <form>
-            <label for="nom">Nom</label>
-            <input type="text" id="nom" placeholder="Nom" required>
-            
-            <label for="email">E-mail</label>
-            <input type="email" id="email" placeholder="E-mail" required>
-            
-            <label for="message">Votre message</label>
-            <textarea id="message" placeholder="Votre message" required></textarea>
-            
-            <button type="submit" class="cta-button">Envoyer</button>
-        </form>
-        <div class="contact-info">
-            <p>Demberekey, 16 rue de la gare, 41210 Montrieux-en-Sologne, France</p>
-            <p>Email: <a href="mailto:contact@Demberekey.com">contact@Demberekey.com</a></p>
-            <p>Téléphone: <a href="tel:+33616818489">+33 6 16 81 84 89</a></p>
-        </div>
-    </section>
+    <h2>Contactez Demberekey</h2>
+    <form action="https://formspree.io/f/xkovbyra" method="POST">
+        <label for="nom">Nom</label>
+        <input type="text" id="nom" name="nom" placeholder="Nom" required>
+        
+        <label for="email">E-mail</label>
+        <input type="email" id="email" name="email" placeholder="E-mail" required>
+        
+        <label for="message">Votre message</label>
+        <textarea id="message" name="message" placeholder="Votre message" required></textarea>
+        
+        <button type="submit" class="cta-button">Envoyer</button>
+    </form>
+    <div class="contact-info">
+        <p>Demberekey, 16 rue de la gare, 41210 Montrieux-en-Sologne, France</p>
+        <p>Email: <a href="mailto:contact@Demberekey.com">contact@Demberekey.com</a></p>
+        <p>Téléphone: <a href="tel:+33616818489">+33 6 16 81 84 89</a></p>
+    </div>
+</section>
 
     <footer>
         <p>&copy; 2025 Demberekey. Tous droits réservés.</p>
@@ -552,5 +552,14 @@
             nav.classList.toggle('active');
         });
     </script>
+    
+    <script>
+    const form = document.querySelector('#contact form');
+    form.addEventListener('submit', (event) => {
+        // Vous pouvez ajouter une logique ici si besoin, mais Formspree gère l'envoi.
+        alert('Votre message a été envoyé !');  // Message simple pour l'utilisateur
+    });
+</script>
 </body>
 </html>
+
