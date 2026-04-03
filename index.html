@@ -307,7 +307,54 @@
             color: var(--text-color);
             font-family: 'Montserrat', sans-serif;
         }
+        /* Section Livraison */
+        #livraison {
+        padding: 60px 20px;
+        background-color: #fff;
+        text-align: center;
+        }
 
+        .livraison-container {
+        max-width: 900px;
+        margin: 0 auto;
+        }
+
+        .livraison-intro {
+        font-size: 1.1rem;
+        color: #444;
+        margin-bottom: 30px;
+        }
+
+        .tarifs-image-container {
+        margin: 40px 0;
+        padding: 15px;
+        background: #fdfdfd;
+        border: 1px solid #eee;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+
+        .img-responsive-tarifs {
+        max-width: 100%; /* L'image ne dépasse jamais la largeur de l'écran */
+        height: auto;    /* Garde les proportions */
+        border-radius: 8px;
+        }
+
+        .caption {
+        font-size: 0.9rem;
+        color: #777;
+        margin-top: 15px;
+        font-style: italic;
+        }
+
+        .livraison-note {
+        background-color: #fce4ec; /* Rose très pâle en rappel de la charte de l'image */
+        border-left: 5px solid #a41d4e; /* Le bordeaux du tableau */
+        padding: 20px;
+        text-align: left;
+        margin-top: 30px;
+        }
+        
         /* Section Contact */
         #contact {
             background-color: var(--secondary-color);
@@ -523,6 +570,25 @@
     </div>
 </section>
 
+    <section id="livraison">
+    <h2>Tarifs et Modalités de Livraison</h2>
+    
+    <div class="livraison-container">
+        <p class="livraison-intro">
+            Nous utilisons <strong>Mondial Relay</strong> pour nos envois en France (Lockers et Points Relais®). 
+            Le délai constaté est généralement de <strong>3 jours ouvrés</strong>.
+        </p>
+
+        <div class="tarifs-image-container">
+            <img src="/images/TarifMR.png" alt="Grille tarifaire Mondial Relay France" class="img-responsive-tarifs">
+            <p class="caption">Tarifs HT indicatifs selon le poids du colis (France métropolitaine)</p>
+        </div>
+
+        <div class="livraison-note">
+            <p><strong>Note :</strong> Pour les commandes professionnelles volumineuses, le tarif appliqué correspondra à la tranche de poids finale de votre colis (ex: 17,47€ HT pour un pain de 25kg).</p>
+        </div>
+    </div>
+</section>
 
     <section id="contact">
     <h2>Contactez Demberekey</h2>
