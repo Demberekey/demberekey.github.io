@@ -35,7 +35,7 @@
             font-family: 'Montserrat', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: var(--bg-color);
+            background-color: var(--bg-color); /* Couleur de secours */
             background-image: url('https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?q=80&w=1471&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
             background-repeat: no-repeat;
             background-attachment: fixed;
@@ -89,45 +89,11 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             transition: background-color 0.3s ease;
-            margin: 5px 0;
-        }
+            display: inline-block;
+            margin: 5px 0; /* espace vertical entre les boutons */
+}
         .cta-button:hover {
             background-color: var(--primary-color);
-            color: white;
-        }
-
-        /* =============================================
-           BOUTON BOUTIQUE — style distinct et mis en avant
-        ============================================= */
-        .cta-button-boutique {
-            display: inline-block;
-            background-color: #2A9D8F;   /* vert accent, différent du rouge-orange */
-            color: white;
-            padding: 0.8rem 2rem;
-            border-radius: 50px;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            margin: 5px 0;
-            border: 2px solid transparent;
-        }
-        .cta-button-boutique:hover {
-            background-color: #21867a;
-            color: white;
-            transform: translateY(-2px);
-        }
-        .boutique-badge {
-            display: inline-block;
-            background: #E9C46A;
-            color: #264653;
-            font-size: 0.65rem;
-            font-weight: bold;
-            letter-spacing: 1px;
-            padding: 2px 8px;
-            border-radius: 20px;
-            text-transform: uppercase;
-            margin-bottom: 6px;
         }
 
         /* Header */
@@ -278,7 +244,7 @@
             display: block;
         }
         
-        /* Section Histoire de l'entreprise */
+        /* Section Histoire de l’entreprise */
         #histoire {
             background-color: var(--primary-color);
             color: white;
@@ -341,70 +307,62 @@
             color: var(--text-color);
             font-family: 'Montserrat', sans-serif;
         }
-
-        /* Séparateur boutique */
-        .boutique-separator {
-            width: 100%;
-            border: none;
-            border-top: 1px dashed #ddd;
-            margin: 1rem 0;
-        }
-
         /* Section Livraison */
         #livraison {
-            padding: 60px 20px;
-            background-color: #fff;
-            text-align: center;
+        padding: 60px 20px;
+        background-color: #fff;
+        text-align: center;
         }
 
         .livraison-container {
-            max-width: 900px;
-            margin: 0 auto;
+        max-width: 900px;
+        margin: 0 auto;
         }
 
         .livraison-intro {
-            font-size: 1.1rem;
-            color: #444;
-            margin-bottom: 30px;
+        font-size: 1.1rem;
+        color: #444;
+        margin-bottom: 30px;
         }
 
         .tarifs-image-container {
-            margin: 40px 0;
-            padding: 15px;
-            background: #fdfdfd;
-            border: 1px solid #eee;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        margin: 40px 0;
+        padding: 15px;
+        background: #fdfdfd;
+        border: 1px solid #eee;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.08);
         }
 
         .img-responsive-tarifs {
-            max-width: 100%;
-            height: auto;
-            border-radius: 8px;
+        max-width: 100%; /* L'image ne dépasse jamais la largeur de l'écran */
+        height: auto;    /* Garde les proportions */
+        border-radius: 8px;
         }
 
         .caption {
-            font-size: 0.9rem;
-            color: #777;
-            margin-top: 15px;
-            font-style: italic;
+        font-size: 0.9rem;
+        color: #777;
+        margin-top: 15px;
+        font-style: italic;
         }
 
         .livraison-note {
-            background-color: #fce4ec;
-            border-left: 5px solid #a41d4e;
-            padding: 20px;
-            text-align: left;
-            margin-top: 30px;
+        background-color: #fce4ec; /* Rose très pâle en rappel de la charte de l'image */
+        border-left: 5px solid #a41d4e; /* Le bordeaux du tableau */
+        padding: 20px;
+        text-align: left;
+        margin-top: 30px;
         }
         
+        /* Correction pour le centrage de l'optimisation */
         .optimisation-container {
             margin-top: 50px;
             padding: 30px 15px;
             border-top: 2px dashed var(--secondary-color);
             display: flex;
             flex-direction: column;
-            align-items: center;
+            align-items: center; /* Centre les éléments horizontalement */
             text-align: center;
         }
 
@@ -413,8 +371,8 @@
         }
 
         .img-optimisation-grande {
-            max-width: 150%;
-            width: 1500px;
+            max-width: 150%; /* S'adapte à l'écran */
+            width: 1500px;    /* Taille optimale sur grand écran */
             height: auto;
             border-radius: 12px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
@@ -422,7 +380,6 @@
             margin-left: -30px;
             margin-right: 0px;
         }
-
         /* Section Contact */
         #contact {
             background-color: var(--secondary-color);
@@ -488,7 +445,7 @@
             font-weight: bold;
         }
 
-        /* Media Queries */
+        /* Media Queries pour le responsive design */
         @media (max-width: 768px) {
             header {
                 padding: 1rem 5%;
@@ -543,7 +500,7 @@
     <header>
         <div class="logo">
             <h1>Demberekey</h1>
-            <p>L'authenticité du karité, du Bénin à votre peau</p>
+            <p>L’authenticité du karité, du Bénin à votre peau</p>
         </div>
         <div class="hamburger" aria-label="Menu de navigation">
             <span></span>
@@ -551,15 +508,15 @@
             <span></span>
         </div>
         <nav aria-label="Navigation principale">
-            <ul>
-                <li><a href="#accueil" class="active">Accueil</a></li>
-                <li><a href="#historique">Historique du beurre</a></li>
-                <li><a href="#histoire">Histoire de l'entreprise</a></li>
-                <li><a href="#produits">Produits</a></li>
-                <li><a href="#livraison">Livraison</a></li> 
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </nav>
+    <ul>
+        <li><a href="#accueil" class="active">Accueil</a></li>
+        <li><a href="#historique">Historique du beurre</a></li>
+        <li><a href="#histoire">Histoire de l’entreprise</a></li>
+        <li><a href="#produits">Produits</a></li>
+        <li><a href="#livraison">Livraison</a></li> 
+        <li><a href="#contact">Contact</a></li>
+    </ul>
+</nav>
     </header>
 
     <section id="accueil" class="hero">
@@ -586,14 +543,14 @@
             <div class="valeur">
                 <img src="https://images.unsplash.com/photo-1502082553048-f009c37129b9?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Arbre de karité" loading="lazy">
                 <h3>Respect de la Nature</h3>
-                <p>Produits écoresponsables, respectueux de l'environnement.</p>
+                <p>Produits écoresponsables, respectueux de l’environnement.</p>
             </div>
         </div>
     </section>
 
     <section id="historique">
-        <h2>L'Héritage du Beurre de Karité</h2>
-        <p>Le beurre de karité, trésor de l'Afrique de l'Ouest, est façonné par des siècles de savoir-faire. Au Bénin, les femmes jouent un rôle central, récoltant les noix de l'arbre de karité et les transformant à la main selon des techniques ancestrales.</p>
+        <h2>L’Héritage du Beurre de Karité</h2>
+        <p>Le beurre de karité, trésor de l’Afrique de l’Ouest, est façonné par des siècles de savoir-faire. Au Bénin, les femmes jouent un rôle central, récoltant les noix de l’arbre de karité et les transformant à la main selon des techniques ancestrales.</p>
         <p>De la récolte des noix (mai-août) au barattage manuel, chaque étape garantit un produit pur, riche en vitamines A, E, et F, idéal pour hydrater et réparer la peau.</p>
         <img src="/images/noix.png" alt="Noix de karité" loading="lazy" style="max-width: 100%; height: auto;">
         <a href="#produits" class="cta-button">Découvrez notre karité</a>
@@ -601,7 +558,7 @@
 
     <section id="histoire">
         <h2>Demberekey : Une Passion pour le Karité</h2>
-        <p>Fondée avec la vision de partager le beurre de karité béninois, Demberekey s'appuie sur un partenariat exclusif avec une coopérative de femmes située dans le Nord Bénin. Notre mission : offrir un produit 100% naturel tout en soutenant les productrices et la durabilité.</p>
+        <p>Fondée avec la vision de partager le beurre de karité béninois, Demberekey s’appuie sur un partenariat exclusif avec une coopérative de femmes située dans le Nord Bénin. Notre mission : offrir un produit 100% naturel tout en soutenant les productrices et la durabilité.</p>
         <div class="histoire-grid">
             <div class="histoire-image">
                 <img src="/images/Femmes.png" alt="Productrices de karité au Bénin" loading="lazy" style="max-width: 100%; height: auto;">
@@ -617,81 +574,74 @@
     </section>
 
     <section id="produits">
-        <h2>Nos Produits</h2>
-        <div class="produits-grid">
-            <div class="produit">
-                <img src="/images/25kg.png" alt="Pain de karité de 25kg" loading="lazy">
-                <h3>Pain de 10kg ou 25kg</h3>
-                <p>soit 19,65€/kg (10kg) ou 19,10€/kg (25kg) HT</p>
-                <a href="/images/Bon_de_commande.docx" class="cta-button" download>Télécharger le bon de commande</a>
-                <a href="/images/Order_form.docx" class="cta-button" download>Download the order form</a>
-                <a href="/images/Analyse.png" class="cta-button" download>Résultat d'analyse</a>
-            </div>
+    <h2>Nos Produits</h2>
+    <div class="produits-grid">
+        <div class="produit">
+            <img src="/images/25kg.png" alt="Pain de karité de 25kg" loading="lazy">
+            <h3>Pain de 10kg ou 25kg</h3>
+            <p>soit 19,65€/kg (10kg) ou 19,10€/kg (25kg)  HT</p>
+            <a href="/images/Bon_de_commande.docx" class="cta-button" download>Télécharger le bon de commande</a>
 
-            <div class="produit">
-                <img src="/images/pot_200g.png" alt="Beurre de karité en petite contenance" loading="lazy">
-                <h3>Pot de 100g ou 200g</h3>
-                <p>Découvrez nos formats pratiques pour un usage quotidien, disponibles directement sur notre boutique en ligne.</p>
-
-                <a href="https://demberekey.myshopify.com/" class="cta-button" target="_blank" rel="noopener noreferrer">Visiter la boutique Shopify</a>
-
-                <!-- NOUVEAU BOUTON — Ma boutique (page locale) -->
-                <span class="boutique-badge">✨ Nouveau — Commande directe</span>
-                <a href="/boutique-karite-demberekey.html" class="cta-button-boutique">
-                    🛒 Commander — Ma boutique
-                </a>
-
-                <a href="/images/Bon_de_commande_pot.docx" class="cta-button" download>Télécharger le bon de commande</a>
-            </div>
+             <a href="/images/Order_form.docx" class="cta-button" download>Download the order form</a>
+            
+            <a href="/images/Analyse.png" class="cta-button" download>Résultat d'alalyse</a>
         </div>
-    </section>
+        <div class="produit">
+            <img src="/images/pot_200g.png" alt="Beurre de karité en petite contenance" loading="lazy">
+            <h3>Pot de 200g </h3>
+            <p>Découvrez nos formats pratiques pour un usage quotidien, disponibles sur notre boutique en ligne.</p>
+            <a href="https://demberekey.myshopify.com/" class="cta-button" target="_blank" rel="noopener noreferrer">Visiter la boutique Shopify</a>
+            <a href="/images/Bon_de_commande_pot.docx" class="cta-button" download>Télécharger le bon de commande</a>
+        </div>
+    </div>
+</section>
 
     <section id="livraison">
-        <h2>Tarifs et Modalités de Livraison préférentielle pour les commandes n'excédant pas 30kg</h2>
-        
-        <div class="livraison-container">
-            <p class="livraison-intro">
-                Nous utilisons <strong>Mondial Relay</strong> pour nos envois en France (Lockers et Points Relais®). 
-                Le délai constaté est généralement de <strong>3 jours ouvrés</strong>.
-            </p>
+    <h2>Tarifs et Modalités de Livraison préférentielle pour les commandes n'excédant pas 30kg </h2>
+    
+    <div class="livraison-container">
+        <p class="livraison-intro">
+            Nous utilisons <strong>Mondial Relay</strong> pour nos envois en France (Lockers et Points Relais®). 
+            Le délai constaté est généralement de <strong>3 jours ouvrés</strong>.
+        </p>
 
-            <div class="tarifs-image-container">
-                <img src="/images/TarifMR.png" alt="Grille tarifaire Mondial Relay France" class="img-responsive-tarifs">
-                <p class="caption">Tarifs HT indicatifs selon le poids du colis (France métropolitaine)</p>
-            </div>
-
-            <div class="livraison-note">
-                <p><strong>Note :</strong> Le tarif appliqué correspond à la tranche de poids finale de votre colis (ex: Commande de 50 pots => 10kg + 50 pots plastique + carton d'emballage = 13,2 kg => les frais de port passe à 17,47€ HT tranche 11kg/25kg, soit <strong>0.35€/pot</strong>.)</p>
-            </div>
-            
-            <div class="optimisation-container">
-                <h3>Optimisation de vos envois</h3>
-                <p>Voici des exemples concrets pour optimiser vos frais de port par article :</p>
-                <img src="/images/Optimisation.png" alt="Optimisation des envois Demberekey" class="img-optimisation-grande">
-            </div>
+        <div class="tarifs-image-container">
+            <img src="/images/TarifMR.png" alt="Grille tarifaire Mondial Relay France" class="img-responsive-tarifs">
+            <p class="caption">Tarifs HT indicatifs selon le poids du colis (France métropolitaine)</p>
         </div>
-    </section>
+
+        <div class="livraison-note">
+            <p><strong>Note :</strong> Le tarif appliqué correspond à la tranche de poids finale de votre colis (ex: Commande de 50 pots => 10kg + 50 pots plastique + carton d'emballage = 13,2 kg => les frais de port passe à 17,47€ HT tranche 11kg/25kg, soit <strong>0.35€/pot</strong></strong>.)</p>
+        </div>
+        
+        <div class="optimisation-container">
+            <h3>Optimisation de vos envois</h3>
+            <p>Voici des exemples concrets pour optimiser vos frais de port par article :</p>
+            <img src="/images/Optimisation.png" alt="Optimisation des envois Demberekey" class="img-optimisation-grande">
+        </div>
+    </div>
+</section>
 
     <section id="contact">
-        <h2>Contactez Demberekey</h2>
-        <form action="https://formspree.io/f/xkovbyra" method="POST">
-            <label for="nom">Nom</label>
-            <input type="text" id="nom" name="nom" placeholder="Nom" required>
-            
-            <label for="email">E-mail</label>
-            <input type="email" id="email" name="email" placeholder="E-mail" required>
-            
-            <label for="message">Votre message</label>
-            <textarea id="message" name="message" placeholder="Votre message" required></textarea>
-            
-            <button type="submit" class="cta-button">Envoyer</button>
-        </form>
-        <div class="contact-info">
-            <p>Demberekey, 16 rue de la gare, 41210 Montrieux-en-Sologne, France</p>
-            <p>Email: <a href="mailto:contact@Demberekey.com">contact@Demberekey.com</a></p>
-            <p>Téléphone: <a href="tel:+33785120011">+33 7 85 12 00 11</a></p>
-        </div>
-    </section>
+    <h2>Contactez Demberekey</h2>
+    <form action="https://formspree.io/f/xkovbyra" method="POST">
+        <label for="nom">Nom</label>
+        <input type="text" id="nom" name="nom" placeholder="Nom" required>
+        
+        <label for="email">E-mail</label>
+        <input type="email" id="email" name="email" placeholder="E-mail" required>
+        
+        <label for="message">Votre message</label>
+        <textarea id="message" name="message" placeholder="Votre message" required></textarea>
+        
+        <button type="submit" class="cta-button">Envoyer</button>
+    </form>
+    <div class="contact-info">
+        <p>Demberekey, 16 rue de la gare, 41210 Montrieux-en-Sologne, France</p>
+        <p>Email: <a href="mailto:contact@Demberekey.com">contact@Demberekey.com</a></p>
+        <p>Téléphone: <a href="tel:+33785120011">+33 7 85 12 00 11</a></p>
+    </div>
+</section>
 
     <footer>
         <p>&copy; 2025 Demberekey. Tous droits réservés.</p>
@@ -706,6 +656,7 @@
     <script>
         const hamburger = document.querySelector('.hamburger');
         const nav = document.querySelector('nav');
+
         hamburger.addEventListener('click', () => {
             nav.classList.toggle('active');
         });
@@ -713,9 +664,9 @@
     
     <script>
         const form = document.querySelector('#contact form');
-        form.addEventListener('submit', (event) => {
-            alert('Votre message a été envoyé !');
-        });
-    </script>
+    form.addEventListener('submit', (event) => {
+        alert('Votre message a été envoyé !');
+    });
+</script>
 </body>
 </html>
