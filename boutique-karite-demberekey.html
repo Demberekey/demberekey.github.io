@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Beurre de Karité — Demberekey</title>
+
+<!-- ============================================================
+  CONFIGURATION — À MODIFIER AVANT MISE EN LIGNE
+  1. Remplacez VOTRE_EMAIL_PAYPAL par votre adresse PayPal Business
+  2. Les frais de port sont fixés à 3,50 € (variable SHIPPING_COST)
+  3. Code Enseigne Mondial Relay : CC23VQHV (déjà configuré)
+============================================================ -->
+
+<!-- Mondial Relay Widget -->
+<script src="https://widget.mondialrelay.com/parcelshop-picker/v4_B2C/js/MR-ParcelShopPicker.min.js"></script>
+<link rel="stylesheet" href="https://widget.mondialrelay.com/parcelshop-picker/v4_B2C/css/MR-ParcelShopPicker.min.css">
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ===== RESET & BASE ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --gold: #b8914a;
+  --gold-light: #e8d5a3;
+  --gold-pale: #fffbf4;
+  --cream: #faf7f2;
+  --dark: #1a1208;
+  --text: #3d2f1a;
+  --muted: #8a7560;
+  --border: #e0d4be;
+  --success-bg: #f0f7f0;
+  --success-border: #a0c8a0;
+  --success-text: #2d6a2d;
+  --warn-bg: #fff5ef;
+  --warn-border: #f0cdb8;
+  --warn-text: #b05a2a;
+  --shipping: 3.50;
+}
+body {
+  font-family: 'Jost', sans-serif;
+  color: var(--text);
+  background: #f5f0e8;
+  min-height: 100vh;
+  padding: 2rem 1rem;
+}
+
+/* ===== LAYOUT ===== */
+.page-wrap {
+  max-width: 680px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 40px rgba(90,60,10,0.10);
+}
+
+/* ===== HEADER ===== */
+.hero {
+  background: linear-gradient(160deg, #1a1208 0%, #3d2b0e 100%);
+  padding: 2.5rem 2rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 60% 40%, rgba(184,145,74,0.18) 0%, transparent 70%);
+}
+.hero-badge {
+  display: inline-block;
+  font-size: 10px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--gold-light);
+  border: 1px solid rgba(184,145,74,0.4);
+  padding: 5px 18px;
+  border-radius: 20px;
+  margin-bottom: 1.2rem;
+  position: relative;
+}
+.hero h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 36px;
+  font-weight: 400;
+  color: white;
+  line-height: 1.2;
+  margin-bottom: 0.4rem;
+  position: relative;
+}
+.hero h1 em {
+  color: var(--gold);
+  font-style: italic;
+  font-size: 28px;
+}
+.hero p {
+  font-size: 13px;
+  color: rgba(255,255,255,0.55);
+  letter-spacing: 0.5px;
+  position: relative;
+}
+
+/* ===== MAIN CONTENT ===== */
+.content {
+  padding: 2rem;
+}
+
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--dark);
+  margin-bottom: 1rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.section-title span.num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  background: var(--gold);
+  color: white;
+  border-radius: 50%;
+  font-family: 'Jost', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+/* ===== PRODUCTS ===== */
+.products {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+.product-card {
+  background: var(--cream);
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  padding: 1.25rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  user-select: none;
+}
+.product-card:hover { border-color: var(--gold); background: var(--gold-pale); }
+.product-card.selected {
+  border-color: var(--gold);
+  border-width: 2px;
+  background: var(--gold-pale);
+}
+.product-card.selected .check {
+  opacity: 1;
+  transform: scale(1);
+}
+.check {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  width: 22px;
+  height: 22px;
+  background: var(--gold);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: scale(0.5);
+  transition: all 0.2s;
+}
+.check::after {
+  content: '';
+  width: 5px;
+  height: 9px;
+  border-right: 2px solid white;
+  border-bottom: 2px solid white;
+  transform: rotate(40deg) translate(-1px, -1px);
+}
+.product-icon { font-size: 30px; margin-bottom: 0.75rem; display: block; }
+.product-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 19px;
+  font-weight: 500;
+  color: var(--dark);
+  margin-bottom: 4px;
+}
+.product-price {
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--gold);
+  margin-bottom: 0.5rem;
+}
+.product-desc { font-size: 12px; color: var(--muted); line-height: 1.6; }
+.qty-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border);
+}
+.qty-label { font-size: 12px; color: var(--muted); }
+.qty-btn {
+  width: 30px;
+  height: 30px;
+  border: 1.5px solid var(--border);
+  background: white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text);
+  transition: 0.15s;
+  line-height: 1;
+}
+.qty-btn:hover { border-color: var(--gold); color: var(--gold); }
+.qty-val { font-size: 15px; font-weight: 500; min-width: 22px; text-align: center; }
+
+/* ===== MONDIAL RELAY ===== */
+.relay-section { margin-bottom: 2rem; }
+.relay-box {
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  padding: 1.25rem;
+  background: var(--cream);
+}
+.relay-intro {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+.relay-ico {
+  width: 44px;
+  height: 44px;
+  background: #e8f0e8;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+.relay-intro h3 { font-size: 14px; font-weight: 500; color: var(--dark); margin-bottom: 3px; }
+.relay-intro p { font-size: 12px; color: var(--muted); line-height: 1.6; }
+.btn-relay {
+  width: 100%;
+  padding: 11px;
+  background: white;
+  border: 1.5px solid var(--gold);
+  border-radius: 10px;
+  color: var(--gold);
+  font-family: 'Jost', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  transition: 0.2s;
+}
+.btn-relay:hover { background: var(--gold-pale); }
+.relay-chosen {
+  display: none;
+  margin-top: 1rem;
+  background: var(--success-bg);
+  border: 1px solid var(--success-border);
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+  font-size: 13px;
+  color: var(--success-text);
+}
+.relay-chosen strong { display: block; font-weight: 500; margin-bottom: 2px; }
+/* Widget container */
+#mr-widget { margin-top: 1rem; display: none; }
+
+/* ===== SUMMARY ===== */
+.summary-section { margin-bottom: 2rem; }
+.summary-box {
+  background: var(--cream);
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  padding: 1.25rem;
+}
+.sum-line {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: var(--muted);
+  padding: 5px 0;
+}
+.sum-line.total {
+  border-top: 1px solid var(--border);
+  margin-top: 0.5rem;
+  padding-top: 0.85rem;
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--dark);
+}
+.sum-line.total span:last-child { color: var(--gold); }
+
+/* ===== PAYPAL ===== */
+.checkout-section { text-align: center; }
+.warn-box {
+  display: none;
+  font-size: 12px;
+  color: var(--warn-text);
+  background: var(--warn-bg);
+  border: 1px solid var(--warn-border);
+  border-radius: 8px;
+  padding: 0.6rem 1rem;
+  margin-bottom: 1rem;
+}
+.btn-paypal {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: #FFD140;
+  border: none;
+  border-radius: 12px;
+  padding: 15px 2rem;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.2s;
+  width: 100%;
+  max-width: 360px;
+  color: #003087;
+  font-family: 'Jost', sans-serif;
+}
+.btn-paypal:hover { background: #f5c800; transform: translateY(-1px); }
+.btn-paypal svg { width: 22px; height: 22px; }
+.secure-note {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 0.75rem;
+  line-height: 1.7;
+}
+
+/* ===== FOOTER ===== */
+.shop-footer {
+  text-align: center;
+  padding: 1.25rem 2rem;
+  border-top: 1px solid var(--border);
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.3px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 480px) {
+  body { padding: 0; }
+  .page-wrap { border-radius: 0; }
+  .content { padding: 1.25rem; }
+  .products { grid-template-columns: 1fr; }
+  .hero h1 { font-size: 28px; }
+}
+</style>
+</head>
+<body>
+
+<div class="page-wrap">
+
+  <!-- HEADER -->
+  <div class="hero">
+    <div class="hero-badge">Naturel · Artisanal · Pur karité</div>
+    <h1>Beurre de Karité<br><em>Demberekey</em></h1>
+    <p>Hydratation intense · Soin traditionnel pour la peau et les cheveux</p>
+  </div>
+
+  <div class="content">
+
+    <!-- ÉTAPE 1 : PRODUITS -->
+    <p class="section-title"><span class="num">1</span> Choisissez votre format</p>
+    <div class="products">
+
+      <div class="product-card" id="card-100" onclick="selectProduct(100)">
+        <div class="check"></div>
+        <span class="product-icon">🫙</span>
+        <div class="product-name">Pot 100 g</div>
+        <div class="product-price">5,00 €</div>
+        <div class="product-desc">Idéal pour découvrir ou pour un usage quotidien ciblé</div>
+        <div class="qty-row">
+          <span class="qty-label">Qté :</span>
+          <button class="qty-btn" onclick="changeQty(event,100,-1)">−</button>
+          <span class="qty-val" id="qty-100">1</span>
+          <button class="qty-btn" onclick="changeQty(event,100,1)">+</button>
+        </div>
+      </div>
+
+      <div class="product-card" id="card-200" onclick="selectProduct(200)">
+        <div class="check"></div>
+        <span class="product-icon">🏺</span>
+        <div class="product-name">Pot 200 g</div>
+        <div class="product-price">8,50 €</div>
+        <div class="product-desc">Le meilleur rapport qualité-prix pour un usage régulier</div>
+        <div class="qty-row">
+          <span class="qty-label">Qté :</span>
+          <button class="qty-btn" onclick="changeQty(event,200,-1)">−</button>
+          <span class="qty-val" id="qty-200">1</span>
+          <button class="qty-btn" onclick="changeQty(event,200,1)">+</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ÉTAPE 2 : MONDIAL RELAY -->
+    <div class="relay-section">
+      <p class="section-title"><span class="num">2</span> Choisissez votre point relais</p>
+      <div class="relay-box">
+        <div class="relay-intro">
+          <div class="relay-ico">📦</div>
+          <div>
+            <h3>Livraison Mondial Relay — Point Relais</h3>
+            <p>Choisissez le point relais le plus proche de chez vous. Frais de port : <strong>3,50 €</strong>. Livraison sous 3 à 5 jours ouvrés.</p>
+          </div>
+        </div>
+        <button class="btn-relay" id="btn-open-relay" onclick="openRelay()">
+          📍 Choisir mon point relais
+        </button>
+
+        <!-- Widget Mondial Relay s'affiche ici -->
+        <div id="mr-widget"></div>
+
+        <!-- Confirmation point relais choisi -->
+        <div class="relay-chosen" id="relay-chosen">
+          <strong id="relay-name-display"></strong>
+          <span id="relay-addr-display"></span>
+          <button onclick="openRelay()" style="margin-top:8px;background:none;border:1px solid var(--success-border);border-radius:6px;padding:4px 10px;font-size:11px;color:var(--success-text);cursor:pointer;">Changer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ÉTAPE 3 : RÉCAPITULATIF -->
+    <div class="summary-section">
+      <p class="section-title"><span class="num">3</span> Récapitulatif</p>
+      <div class="summary-box">
+        <div class="sum-line" id="line-100" style="display:none">
+          <span>Pot 100 g × <span id="s-qty100">1</span></span>
+          <span id="s-price100">—</span>
+        </div>
+        <div class="sum-line" id="line-200" style="display:none">
+          <span>Pot 200 g × <span id="s-qty200">1</span></span>
+          <span id="s-price200">—</span>
+        </div>
+        <div class="sum-line">
+          <span>Frais de port (point relais Mondial Relay)</span>
+          <span>3,50 €</span>
+        </div>
+        <div class="sum-line total">
+          <span>Total</span>
+          <span id="total-display">—</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ÉTAPE 4 : PAIEMENT -->
+    <div class="checkout-section">
+      <p class="section-title" style="text-align:left"><span class="num">4</span> Paiement sécurisé</p>
+
+      <div class="warn-box" id="warn-product">⚠️ Veuillez sélectionner au moins un produit.</div>
+      <div class="warn-box" id="warn-relay">⚠️ Veuillez choisir un point relais avant de payer.</div>
+
+      <button class="btn-paypal" onclick="checkout()">
+        <svg viewBox="0 0 24 24" fill="#003087" xmlns="http://www.w3.org/2000/svg">
+          <path d="M7.5 21.5H4.3l.8-5H3l3-13h7c2.5 0 4.2 1.3 3.8 3.8-.5 3-2.8 4.2-5.5 4.2H9.8L8.5 17h2.2l-.5 3H7.5zm6.5-17H9.5l-1 5.5h3.5c1.8 0 3-.8 3.3-2.5.3-1.8-.7-3-2.3-3z"/>
+          <path d="M14 21.5h-3.2l.5-3H9.1l1.3-5.8h1.5l-.3 1.8h1.2c2.5 0 4.5-1.2 5-4 .4-2.3-.8-3.7-2.8-3.9 1.8.3 3 1.8 2.6 4.1-.6 3.2-2.8 4.3-5.3 4.3h-1l-.3 1.8H14l-.5 3h.5z" fill="#009cde"/>
+        </svg>
+        Payer avec PayPal
+      </button>
+
+      <p class="secure-note">
+        🔒 Paiement 100% sécurisé via PayPal<br>
+        Carte bancaire acceptée sans compte PayPal
+      </p>
+    </div>
+
+  </div>
+
+  <div class="shop-footer">
+    © Demberekey · www.demberekey.com · Beurre de karité artisanal
+  </div>
+
+</div>
+
+<!-- =====================================================
+  JAVASCRIPT
+====================================================== -->
+<script>
+// ============================================================
+// ⚙️ CONFIGURATION — MODIFIEZ CES DEUX VALEURS
+// ============================================================
+const PAYPAL_EMAIL = "VOTRE_EMAIL_PAYPAL@example.com"; // ← votre email PayPal Business
+const SHIPPING_COST = 3.50; // ← frais de port en €
+// ============================================================
+
+const PRICES = { 100: 5.00, 200: 8.50 };
+const qtys   = { 100: 1,    200: 1    };
+const selected = { 100: false, 200: false };
+
+let relayChosen = false;
+let relayInfo   = { id: '', name: '', address: '', city: '', cp: '' };
+
+/* ---------- Sélection produit ---------- */
+function selectProduct(g) {
+  selected[g] = !selected[g];
+  document.getElementById('card-' + g).classList.toggle('selected', selected[g]);
+  updateSummary();
+}
+
+function changeQty(e, g, delta) {
+  e.stopPropagation();
+  if (!selected[g]) { selected[g] = true; document.getElementById('card-' + g).classList.add('selected'); }
+  qtys[g] = Math.max(1, qtys[g] + delta);
+  document.getElementById('qty-' + g).textContent = qtys[g];
+  updateSummary();
+}
+
+/* ---------- Récapitulatif ---------- */
+function updateSummary() {
+  let sub = 0;
+  [100, 200].forEach(g => {
+    const line = document.getElementById('line-' + g);
+    if (selected[g]) {
+      const amt = PRICES[g] * qtys[g];
+      sub += amt;
+      document.getElementById('s-qty' + g).textContent = qtys[g];
+      document.getElementById('s-price' + g).textContent = amt.toFixed(2) + ' €';
+      line.style.display = 'flex';
+    } else {
+      line.style.display = 'none';
+    }
+  });
+  const total = sub > 0 ? (sub + SHIPPING_COST).toFixed(2) + ' €' : '—';
+  document.getElementById('total-display').textContent = total;
+}
+
+/* ---------- Mondial Relay Widget ---------- */
+function openRelay() {
+  const widgetDiv = document.getElementById('mr-widget');
+  widgetDiv.style.display = 'block';
+  widgetDiv.innerHTML = '';
+  document.getElementById('relay-chosen').style.display = 'none';
+
+  // Initialisation du widget officiel Mondial Relay
+  jQuery('#mr-widget').MR_ParcelShopPicker({
+    Target:        '#mr-widget',           // cible de retour
+    Brand:         'CC',                   // Code Marque
+    Country:       'FR',
+    Css:           '',
+    OnParcelShopSelected: function(data) {
+      // Callback appelé quand le client choisit un point relais
+      relayChosen = true;
+      relayInfo = {
+        id:      data.ID,
+        name:    data.Nom,
+        address: data.Adresse1 + (data.Adresse2 ? ', ' + data.Adresse2 : ''),
+        cp:      data.CP,
+        city:    data.Ville
+      };
+      document.getElementById('relay-name-display').textContent = data.Nom;
+      document.getElementById('relay-addr-display').textContent =
+        data.Adresse1 + ' — ' + data.CP + ' ' + data.Ville;
+
+      const chosen = document.getElementById('relay-chosen');
+      chosen.style.display = 'block';
+      widgetDiv.style.display = 'none';
+      document.getElementById('warn-relay').style.display = 'none';
+
+      // Scroll vers le récap
+      chosen.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  });
+}
+
+/* ---------- Checkout PayPal ---------- */
+function checkout() {
+  const hasProduct = selected[100] || selected[200];
+  document.getElementById('warn-product').style.display = hasProduct ? 'none' : 'block';
+  if (!hasProduct) return;
+
+  document.getElementById('warn-relay').style.display = relayChosen ? 'none' : 'block';
+  if (!relayChosen) return;
+
+  // Calcul du total
+  let sub = 0;
+  [100, 200].forEach(g => { if (selected[g]) sub += PRICES[g] * qtys[g]; });
+  const total = (sub + SHIPPING_COST).toFixed(2);
+
+  // Descriptif de la commande
+  const items = [];
+  if (selected[100]) items.push(qtys[100] + 'x Pot 100g');
+  if (selected[200]) items.push(qtys[200] + 'x Pot 200g');
+  const description = encodeURIComponent(
+    'Beurre de Karité Demberekey — ' + items.join(', ') +
+    ' — Livraison: ' + relayInfo.name + ' (' + relayInfo.cp + ' ' + relayInfo.city + ')'
+  );
+
+  // Redirection vers PayPal.me avec le montant
+  // Alternative : utiliser l'API PayPal Orders pour une intégration complète
+  const paypalUrl = `https://www.paypal.com/cgi-bin/webscr?cmd=_xclick` +
+    `&business=${encodeURIComponent(PAYPAL_EMAIL)}` +
+    `&item_name=${description}` +
+    `&amount=${total}` +
+    `&currency_code=EUR` +
+    `&no_shipping=1` +
+    `&return=${encodeURIComponent(window.location.href + '?merci=1')}` +
+    `&cancel_return=${encodeURIComponent(window.location.href)}`;
+
+  window.location.href = paypalUrl;
+}
+
+/* ---------- Message de retour PayPal ---------- */
+if (new URLSearchParams(window.location.search).get('merci') === '1') {
+  setTimeout(() => {
+    const msg = document.createElement('div');
+    msg.style = 'position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#2d6a2d;color:white;padding:14px 24px;border-radius:12px;font-size:14px;z-index:999;box-shadow:0 4px 20px rgba(0,0,0,0.2);text-align:center;';
+    msg.innerHTML = '✅ Merci pour votre commande !<br><small>Vous recevrez une confirmation par email.</small>';
+    document.body.appendChild(msg);
+    setTimeout(() => msg.remove(), 6000);
+  }, 500);
+}
+
+updateSummary();
+</script>
+
+<!--
+  NOTE SUR LE WIDGET MONDIAL RELAY :
+  Le widget officiel nécessite jQuery. Si votre site n'a pas jQuery,
+  ajoutez cette ligne AVANT le script Mondial Relay :
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  VOTRE CODE ENSEIGNE : CC23VQHV
+  VOTRE CODE MARQUE   : CC
+  
+  Si le widget ne s'affiche pas, connectez-vous sur :
+  https://www.mondialrelay.fr/espace-pro/
+  et vérifiez que votre compte est bien activé.
+-->
+</body>
+</html>
