@@ -877,9 +877,9 @@
             `;
         });
 
-        itemsDiv.innerHTML = html;
-        totalP.innerHTML = `Total produits : <strong>${total.toFixed(2)} €</strong><br>
-            <small>(les frais de port seront calculés selon le poids)</small>`;
+       itemsDiv.innerHTML = html;
+totalP.innerHTML = `Total produits : <strong>${total.toFixed(2)} €</strong><br>
+    <small>(les <a href="https://www.demberekey.com/images/Optimisation.png" target="_blank" style="color:#2A9D8F; text-decoration:underline; font-weight:bold;">frais de port</a> sont consultables dans le tableau d'optimisation des envois ci-dessous)</small>`;
     }
 
     updateCartDisplay();
