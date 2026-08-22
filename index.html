@@ -670,7 +670,7 @@
     <h2>Nos Produits</h2>
     
     <div class="produits-grid">
-        <!-- Pain de 25kg (inchangé) -->
+        <!-- Pain de 25kg -->
         <div class="produit">
             <img src="/images/25kg.png" alt="Pain de karité de 25kg" loading="lazy">
             <h3>Pain de 25kg</h3>
@@ -686,13 +686,29 @@
             <button class="cta-button" onclick="addToCart('100g', 8)">Ajouter au panier</button>
         </div>
 
-    <!-- Panier -->
-    <div id="cart" style="max-width:600px; margin:3rem auto; background:white; padding:2rem; border-radius:12px; box-shadow:0 4px 15px rgba(0,0,0,0.1); display:none;">
-        <h3>Votre panier</h3>
+    <!-- ========== PANIER + CHOIX POINT RELAIS ========== -->
+    <div id="cart" style="max-width:900px; margin:3rem auto; background:white; padding:2rem; border-radius:12px; box-shadow:0 4px 15px rgba(0,0,0,0.1); display:none;">
+        <h3 style="text-align:center; color:#2A9D8F;">Votre panier</h3>
+        
         <div id="cart-items"></div>
-        <p id="cart-total" style="font-weight:bold; font-size:1.2rem; margin-top:1rem;"></p>
-        <button class="cta-button" onclick="checkout()" style="margin-top:1rem;">Passer au paiement</button>
-        <button class="cta-button" onclick="clearCart()" style="background:#999; margin-left:10px;">Vider le panier</button>
+        <p id="cart-total" style="font-weight:bold; font-size:1.2rem; margin:1.5rem 0; text-align:center;"></p>
+
+        <!-- Widget Mondial Relay -->
+        <div style="margin:2rem 0; text-align:center;">
+            <h4 style="color:#264653;">Choisissez votre Point Relais</h4>
+            <div id="Zone_Widget" style="min-height:400px;"></div>
+            <input type="hidden" id="Retour_Widget">
+            <p id="selected-relais" style="margin-top:1rem; font-weight:bold; color:#2A9D8F;"></p>
+        </div>
+
+        <div style="text-align:center; margin-top:2rem;">
+            <button class="cta-button" onclick="checkout()" id="btn-paiement" disabled style="opacity:0.5;">
+                Passer au paiement
+            </button>
+            <button class="cta-button" onclick="clearCart()" style="background:#999; margin-left:10px;">
+                Vider le panier
+            </button>
+        </div>
     </div>
 </section>
 
@@ -768,16 +784,43 @@
             alert('Votre message a été envoyé !');
         });
     </script>
-    <script>
-    // === Panier simple ===
+   <!-- Scripts Mondial Relay -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://widget.mondialrelay.com/parcelshop-picker/jquery.plugin.mondialrelay.parcelshoppicker.min.js"></script>
+
+<script>
     let cart = JSON.parse(localStorage.getItem('demberekey_cart')) || {};
+    let selectedRelais = null;
+
+    // Initialisation du widget
+    $(document).ready(function () {
+        $("#Zone_Widget").MR_ParcelShopPicker({
+            Target: "#Retour_Widget",
+            Brand: "CC23VQHV",
+            Country: "FR",
+            Responsive: true,
+            OnParcelShopSelected: function (data) {
+                selectedRelais = {
+                    id: data.ID,
+                    nom: data.Nom,
+                    adresse: data.Adresse1 + " " + data.CP + " " + data.Ville
+                };
+                document.getElementById("selected-relais").innerHTML = 
+                    "✅ Point Relais choisi : <strong>" + data.Nom + "</strong><br>" + data.Adresse1 + " – " + data.CP + " " + data.Ville;
+                
+                // Active le bouton paiement
+                const btn = document.getElementById("btn-paiement");
+                btn.disabled = false;
+                btn.style.opacity = "1";
+            }
+        });
+    });
 
     function addToCart(id, price) {
         if (!cart[id]) cart[id] = { quantity: 0, price: price };
         cart[id].quantity += 1;
         saveCart();
         updateCartDisplay();
-        alert("Produit ajouté au panier !");
     }
 
     function changeQuantity(id, delta) {
@@ -790,6 +833,10 @@
 
     function clearCart() {
         cart = {};
+        selectedRelais = null;
+        document.getElementById("selected-relais").innerHTML = "";
+        document.getElementById("btn-paiement").disabled = true;
+        document.getElementById("btn-paiement").style.opacity = "0.5";
         saveCart();
         updateCartDisplay();
     }
@@ -819,11 +866,11 @@
             total += subtotal;
             const name = id === '100g' ? 'Pot 100 g' : 'Pot 200 g';
             html += `
-                <div style="display:flex; justify-content:space-between; align-items:center; margin:10px 0;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin:12px 0; padding:8px; background:#f9f7f3; border-radius:8px;">
                     <span>${name} × ${item.quantity}</span>
                     <div>
-                        <button onclick="changeQuantity('${id}', -1)">−</button>
-                        <button onclick="changeQuantity('${id}', 1)">+</button>
+                        <button onclick="changeQuantity('${id}', -1)" style="margin:0 5px;">−</button>
+                        <button onclick="changeQuantity('${id}', 1)" style="margin:0 5px;">+</button>
                         <strong>${subtotal.toFixed(2)} €</strong>
                     </div>
                 </div>
@@ -831,14 +878,19 @@
         });
 
         itemsDiv.innerHTML = html;
-        totalP.innerHTML = `Total produits : ${total.toFixed(2)} €<br><small>(les frais de port seront calculés à l’étape suivante)</small>`;
+        totalP.innerHTML = `Total produits : <strong>${total.toFixed(2)} €</strong><br>
+            <small>(les frais de port seront calculés selon le poids)</small>`;
     }
 
-    // Au chargement
     updateCartDisplay();
 
-    // === Envoi vers le Worker ===
+    // === Paiement ===
     async function checkout() {
+        if (!selectedRelais) {
+            alert("Veuillez d’abord choisir un Point Relais");
+            return;
+        }
+
         const items = Object.keys(cart).map(id => ({
             id: id,
             quantity: cart[id].quantity
@@ -853,13 +905,18 @@
             const response = await fetch("https://demberekey-api.le-clech37.workers.dev", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ items })
+                body: JSON.stringify({ 
+                    items: items,
+                    point_relais: selectedRelais
+                })
             });
 
             const data = await response.json();
 
             if (data.url) {
-                window.location.href = data.url; // Redirection vers Stripe
+                // On vide le panier après redirection
+                localStorage.removeItem('demberekey_cart');
+                window.location.href = data.url;
             } else {
                 alert("Erreur : " + (data.error || "Impossible de créer le paiement"));
             }
