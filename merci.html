@@ -4,47 +4,106 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Merci pour votre commande – Demberekey</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Montserrat', sans-serif; background: #F9F7F3; color: #264653; margin: 0; padding: 2rem; text-align: center; }
-        h1 { color: #2A9D8F; }
-        .container { max-width: 800px; margin: 0 auto; background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        #Zone_Widget { margin: 2rem 0; min-height: 400px; }
-        .btn { background: #E76F51; color: white; padding: 12px 30px; border: none; border-radius: 50px; font-weight: bold; cursor: pointer; font-size: 1rem; }
-        .btn:hover { background: #F4A261; }
-        .info { background: #f0f9f7; padding: 1rem; border-radius: 8px; margin: 1.5rem 0; }
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #F9F7F3;
+            color: #264653;
+            margin: 0;
+            padding: 2rem;
+            text-align: center;
+        }
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            color: #2A9D8F;
+            font-size: 2.8rem;
+        }
+        .container {
+            max-width: 850px;
+            margin: 0 auto;
+            background: white;
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+        }
+        .info {
+            background: #e8f5f3;
+            padding: 1.2rem;
+            border-radius: 10px;
+            margin: 1.5rem 0;
+            font-size: 1.05rem;
+        }
+        #Zone_Widget {
+            margin: 2rem 0;
+            min-height: 420px;
+        }
+        .btn {
+            background: #E76F51;
+            color: white;
+            padding: 14px 36px;
+            border: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .btn:hover {
+            background: #F4A261;
+        }
+        input[type="email"] {
+            padding: 12px;
+            width: 80%;
+            max-width: 400px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Merci pour votre commande !</h1>
         <p>Votre paiement a bien été reçu.</p>
-        
+
         <div class="info">
-            <strong>Dernière étape :</strong> Choisissez ci-dessous le Point Relais où vous souhaitez récupérer votre colis.
+            <strong>Dernière étape :</strong><br>
+            Choisissez ci-dessous le Point Relais (ou Locker) où vous souhaitez récupérer votre colis.
         </div>
 
         <!-- Widget Mondial Relay -->
         <div id="Zone_Widget"></div>
-        <input type="hidden" id="Retour_Widget" name="point_relais">
+        <input type="hidden" id="Retour_Widget">
 
-        <br>
         <form id="form-relais" action="https://formspree.io/f/xkovbyra" method="POST">
             <input type="hidden" name="point_relais_id" id="point_relais_id">
             <input type="hidden" name="point_relais_info" id="point_relais_info">
-            <input type="text" name="email" placeholder="Votre email (celui utilisé pour le paiement)" required style="padding:10px; width:80%; margin-bottom:10px;">
+            <input type="hidden" name="session_id" id="session_id">
+            
+            <input type="email" name="email" placeholder="Votre email (celui utilisé pour le paiement)" required>
             <br>
             <button type="submit" class="btn">Valider mon Point Relais</button>
         </form>
 
-        <p style="margin-top:2rem; font-size:0.9rem;">Vous recevrez un email de confirmation dès que le colis sera expédié.</p>
+        <p style="margin-top: 2.5rem; font-size: 0.95rem; color: #666;">
+            Vous recevrez un email de confirmation dès que le colis sera expédié.
+        </p>
     </div>
 
-    <!-- Scripts du widget -->
+    <!-- Scripts -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://widget.mondialrelay.com/parcelshop-picker/jquery.plugin.mondialrelay.parcelshoppicker.min.js"></script>
     
     <script>
+        // Récupère le session_id de Stripe dans l'URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const sessionId = urlParams.get('session_id');
+        if (sessionId) {
+            document.getElementById('session_id').value = sessionId;
+        }
+
         $(document).ready(function () {
             $("#Zone_Widget").MR_ParcelShopPicker({
                 Target: "#Retour_Widget",
@@ -52,9 +111,9 @@
                 Country: "FR",
                 Responsive: true,
                 OnParcelShopSelected: function (data) {
-                    // Remplit automatiquement le formulaire
                     document.getElementById("point_relais_id").value = data.ID;
-                    document.getElementById("point_relais_info").value = data.Nom + " - " + data.Adresse1 + " " + data.CP + " " + data.Ville;
+                    document.getElementById("point_relais_info").value = 
+                        data.Nom + " | " + data.Adresse1 + " | " + data.CP + " " + data.Ville;
                 }
             });
         });
