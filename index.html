@@ -667,29 +667,34 @@
     <!-- ================================================================= -->
 
     <section id="produits">
-        <h2>Nos Produits</h2>
-        <div class="produits-grid">
-            <div class="produit">
-                <img src="/images/25kg.png" alt="Pain de karité de 25kg" loading="lazy">
-                <h3>Pain de 25kg</h3>
-                <a href="#contact" class="cta-button">Nous contacter</a>
-                <a href="/images/Analyse.png" class="cta-button" download>Résultat d'analyse</a>
-            </div>
-            <div class="produit">
-            <img src="/images/Pot_100g.png" alt="Beurre de karité pot 100g" loading="lazy">
+    <h2>Nos Produits</h2>
+    
+    <div class="produits-grid">
+        <!-- Pain de 25kg (inchangé) -->
+        <div class="produit">
+            <img src="/images/25kg.png" alt="Pain de karité de 25kg" loading="lazy">
+            <h3>Pain de 25kg</h3>
+            <a href="#contact" class="cta-button">Nous contacter</a>
+            <a href="/images/Analyse.png" class="cta-button" download>Résultat d'analyse</a>
+        </div>
+
+        <!-- Pot 100 g -->
+        <div class="produit">
+            <img src="/images/Pot_100g.png" alt="Beurre de Karité pot 100g" loading="lazy">
             <h3>Pot de 100 g – 8 €</h3>
             <p>Beurre de karité brut 100 % naturel du Bénin.</p>
-                      <script async
-  src="https://js.stripe.com/v3/buy-button.js">
-</script>
-
-<stripe-buy-button
-  buy-button-id="buy_btn_1U78cRPRtSeOutzX8sN49qGw"
-  publishable-key="pk_live_51U5oByPRtSeOutzXL4Jlpd50V3mrb4qV3U5lhCfFcZrWiX7hQth4IlPIMs7efFIZZ9ihh3H2uvwW2iMF7ksQbkPr00jX69xJWh"
->
-</stripe-buy-button>
+            <button class="cta-button" onclick="addToCart('100g', 8)">Ajouter au panier</button>
         </div>
-    </section>
+
+    <!-- Panier -->
+    <div id="cart" style="max-width:600px; margin:3rem auto; background:white; padding:2rem; border-radius:12px; box-shadow:0 4px 15px rgba(0,0,0,0.1); display:none;">
+        <h3>Votre panier</h3>
+        <div id="cart-items"></div>
+        <p id="cart-total" style="font-weight:bold; font-size:1.2rem; margin-top:1rem;"></p>
+        <button class="cta-button" onclick="checkout()" style="margin-top:1rem;">Payer avec Stripe</button>
+        <button class="cta-button" onclick="clearCart()" style="background:#999; margin-left:10px;">Vider le panier</button>
+    </div>
+</section>
 
     <section id="livraison">
         <h2>Tarifs et Modalités de Livraison préférentielle pour les commandes n'excédant pas 30kg</h2>
@@ -763,5 +768,105 @@
             alert('Votre message a été envoyé !');
         });
     </script>
+    <script>
+    // === Panier simple ===
+    let cart = JSON.parse(localStorage.getItem('demberekey_cart')) || {};
+
+    function addToCart(id, price) {
+        if (!cart[id]) cart[id] = { quantity: 0, price: price };
+        cart[id].quantity += 1;
+        saveCart();
+        updateCartDisplay();
+        alert("Produit ajouté au panier !");
+    }
+
+    function changeQuantity(id, delta) {
+        if (!cart[id]) return;
+        cart[id].quantity += delta;
+        if (cart[id].quantity <= 0) delete cart[id];
+        saveCart();
+        updateCartDisplay();
+    }
+
+    function clearCart() {
+        cart = {};
+        saveCart();
+        updateCartDisplay();
+    }
+
+    function saveCart() {
+        localStorage.setItem('demberekey_cart', JSON.stringify(cart));
+    }
+
+    function updateCartDisplay() {
+        const cartDiv = document.getElementById('cart');
+        const itemsDiv = document.getElementById('cart-items');
+        const totalP = document.getElementById('cart-total');
+
+        const keys = Object.keys(cart);
+        if (keys.length === 0) {
+            cartDiv.style.display = 'none';
+            return;
+        }
+
+        cartDiv.style.display = 'block';
+        let html = '';
+        let total = 0;
+
+        keys.forEach(id => {
+            const item = cart[id];
+            const subtotal = item.quantity * item.price;
+            total += subtotal;
+            const name = id === '100g' ? 'Pot 100 g' : 'Pot 200 g';
+            html += `
+                <div style="display:flex; justify-content:space-between; align-items:center; margin:10px 0;">
+                    <span>${name} × ${item.quantity}</span>
+                    <div>
+                        <button onclick="changeQuantity('${id}', -1)">−</button>
+                        <button onclick="changeQuantity('${id}', 1)">+</button>
+                        <strong>${subtotal.toFixed(2)} €</strong>
+                    </div>
+                </div>
+            `;
+        });
+
+        itemsDiv.innerHTML = html;
+        totalP.innerHTML = `Total produits : ${total.toFixed(2)} €<br><small>(les frais de port seront calculés à l’étape suivante)</small>`;
+    }
+
+    // Au chargement
+    updateCartDisplay();
+
+    // === Envoi vers le Worker ===
+    async function checkout() {
+        const items = Object.keys(cart).map(id => ({
+            id: id,
+            quantity: cart[id].quantity
+        }));
+
+        if (items.length === 0) {
+            alert("Votre panier est vide");
+            return;
+        }
+
+        try {
+            const response = await fetch("https://demberekey-api.le-clech37.workers.dev", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ items })
+            });
+
+            const data = await response.json();
+
+            if (data.url) {
+                window.location.href = data.url; // Redirection vers Stripe
+            } else {
+                alert("Erreur : " + (data.error || "Impossible de créer le paiement"));
+            }
+        } catch (err) {
+            alert("Erreur de connexion : " + err.message);
+        }
+    }
+</script>
 </body>
 </html>
